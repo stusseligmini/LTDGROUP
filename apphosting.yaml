@@ -1,0 +1,151 @@
+# Firebase App Hosting configuration
+runConfig:
+  minInstances: 0
+  maxInstances: 4
+  concurrency: 80
+
+env:
+  - variable: NODE_ENV
+    value: production
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  # Firebase Configuration
+  - variable: FIREBASE_PROJECT_ID
+    value: celora-7b552
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: celora-7b552
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  # Firebase API Key - Public but restricted by domain and App Check
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    secret: NEXT_PUBLIC_FIREBASE_API_KEY
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: celora-7b552.firebaseapp.com
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: celora-7b552.firebasestorage.app
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "505448793868"
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:505448793868:web:df0e3f80e669ab47a26b29
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  # Neon PostgreSQL Database (connection pooling)
+  - variable: DATABASE_URL
+    secret: DATABASE_URL
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  # Direct database connection (for migrations)
+  - variable: DIRECT_DATABASE_URL
+    secret: DIRECT_DATABASE_URL
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  # Helius API for Solana RPC
+  - variable: HELIUS_API_KEY
+    secret: HELIUS_API_KEY
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: NEXT_PUBLIC_HELIUS_API_KEY
+    secret: HELIUS_API_KEY
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: NEXT_PUBLIC_HELIUS_RPC_URL
+    value: https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: SOLANA_RPC_URL
+    value: https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}
+    availability:
+      - RUNTIME
+  
+  - variable: SOLANA_WSS_URL
+    value: wss://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}
+    availability:
+      - RUNTIME
+  
+  # Firebase Admin SDK (Server-side only)
+  - variable: GCP_PROJECT_ID
+    value: celora-7b552
+    availability:
+      - RUNTIME
+  
+  - variable: GCP_CLIENT_EMAIL
+    value: firebase-adminsdk-fbsvc@celora-7b552.iam.gserviceaccount.com
+    availability:
+      - RUNTIME
+  
+  - variable: GCP_PRIVATE_KEY
+    secret: GCP_PRIVATE_KEY
+    availability:
+      - RUNTIME
+  
+  # reCAPTCHA Enterprise
+  - variable: NEXT_PUBLIC_RECAPTCHA_PROJECT_ID
+    value: celora-7b552
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: NEXT_PUBLIC_RECAPTCHA_V3_SITE_KEY
+    value: 6Lc3DR4sAAAALSoFmgh9mWjmTeQ8GEfAqPjsQYZ
+    availability:
+      - BUILD
+      - RUNTIME
+  
+  - variable: RECAPTCHA_SECRET_KEY
+    secret: RECAPTCHA_SECRET_KEY
+    availability:
+      - RUNTIME
+  
+  # Telegram Bot
+  - variable: TELEGRAM_BOT_TOKEN
+    secret: TELEGRAM_BOT_TOKEN
+    availability:
+      - RUNTIME
+  
+  - variable: TELEGRAM_WEBHOOK_SECRET
+    secret: TELEGRAM_WEBHOOK_SECRET
+    availability:
+      - RUNTIME
+  
+  # Telegram Mini App URL
+  - variable: TELEGRAM_MINI_APP_URL
+    value: https://celora-7b552.web.app
+    availability:
+      - RUNTIME
+

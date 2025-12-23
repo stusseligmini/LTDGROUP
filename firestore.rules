@@ -1,0 +1,227 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // App Check is optional - allow writes without it for development
+    function canWrite() {
+      return isAuthenticated();
+    }
+    
+    // Users collection (top-level documents)
+    match /users/{userId} {
+      allow read: if true; // Public read for profiles
+      allow create: if isOwner(userId) && canWrite();
+      allow write: if isOwner(userId) && canWrite();
+      allow update: if isOwner(userId) && canWrite()
+                    && request.resource.data.uid == resource.data.uid
+                    && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false; // Prevent deletion
+      
+      // Wallets subcollection
+      match /wallets/{walletId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if isOwner(userId) && canWrite();
+        allow update: if isOwner(userId) && canWrite()
+                      && request.resource.data.userId == resource.data.userId
+                      && request.resource.data.createdAt == resource.data.createdAt;
+        allow delete: if false;
+      }
+      
+      // Transactions subcollection
+      match /transactions/{transactionId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if isOwner(userId) && canWrite();
+        allow update: if isOwner(userId) && canWrite()
+                      && request.resource.data.userId == resource.data.userId
+                      && request.resource.data.createdAt == resource.data.createdAt;
+        allow delete: if false;
+      }
+      
+      // Settings subcollection
+      match /settings/{settingId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if isOwner(userId) && canWrite();
+        allow delete: if false;
+      }
+
+      // Cards subcollection (virtual/physical debit cards)
+      match /cards/{cardId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if isOwner(userId) && canWrite();
+        allow update: if isOwner(userId) && canWrite()
+                      && request.resource.data.userId == resource.data.userId
+                      && request.resource.data.createdAt == resource.data.createdAt;
+        allow delete: if false;
+
+        // Card transactions
+        match /transactions/{txId} {
+          allow read: if isOwner(userId);
+          allow write: if false; // Server-only
+          allow delete: if false;
+        }
+      }
+
+      // Notifications subcollection
+      match /notifications/{notificationId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if isOwner(userId) && canWrite();
+        allow update: if isOwner(userId) && canWrite();
+        allow delete: if isOwner(userId) && canWrite();
+      }
+
+      // Payment requests subcollection
+      match /paymentRequests/{requestId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if isOwner(userId) && canWrite();
+        allow update: if isOwner(userId) && canWrite()
+                      && request.resource.data.senderId == resource.data.senderId
+                      && request.resource.data.createdAt == resource.data.createdAt;
+        allow delete: if isOwner(userId) && canWrite();
+      }
+
+      // Wallet guardians (recovery)
+      match /guardians/{guardianId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if isOwner(userId) && canWrite();
+        allow delete: if isOwner(userId) && canWrite();
+      }
+
+      // Staking positions
+      match /staking/{stakingId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if isOwner(userId) && canWrite();
+        allow update: if isOwner(userId) && canWrite()
+                      && request.resource.data.userId == resource.data.userId;
+        allow delete: if false;
+      }
+
+      // Spending insights and alerts
+      match /spendingInsights/{insightId} {
+        allow read: if isOwner(userId);
+        allow write: if false; // Server-only (AI-generated)
+        allow delete: if false;
+      }
+
+      match /fraudAlerts/{alertId} {
+        allow read: if isOwner(userId);
+        allow write: if false; // Server-only
+        allow delete: if isOwner(userId) && canWrite();
+      }
+
+      // NFTs
+      match /nfts/{nftId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && canWrite();
+        allow write: if false; // Immutable metadata
+        allow delete: if false;
+      }
+
+      // Audit log
+      match /auditLog/{logId} {
+        allow read: if isOwner(userId);
+        allow write: if false; // Server-only
+        allow delete: if false;
+      }
+    }
+
+    // UserAuthLinks: multi-provider links
+    match /userAuthLinks/{linkId} {
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
+      allow create: if isAuthenticated() && canWrite()
+                    && request.resource.data.uid == request.auth.uid;
+      allow update: if isAuthenticated() && canWrite()
+                    && resource.data.uid == request.auth.uid
+                    && request.resource.data.uid == resource.data.uid
+                    && request.resource.data.provider == resource.data.provider;
+      allow delete: if isAuthenticated() && canWrite() 
+                    && resource.data.uid == request.auth.uid;
+    }
+
+    // Wallets: top-level wallet addresses
+    match /wallets/{walletId} {
+      allow read: if true; // Public read for address lookups
+      allow create: if isAuthenticated() && canWrite() 
+                   && request.resource.data.uid == request.auth.uid;
+      allow update: if isAuthenticated() && canWrite()
+                    && resource.data.uid == request.auth.uid
+                    && request.resource.data.uid == resource.data.uid;
+      allow delete: if false;
+    }
+
+    // Usernames: doc id is lowercase username
+    match /usernames/{username} {
+      allow read: if true; // Public username lookups
+      allow create: if isAuthenticated() && canWrite()
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.name.lower() == username;
+      allow update: if false; // Immutable after creation
+      allow delete: if false;
+    }
+
+    // Backups: encrypted recovery manifests
+    match /backups/{backupId} {
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
+      allow create: if isAuthenticated() && canWrite() 
+                   && request.resource.data.uid == request.auth.uid;
+      allow update: if isAuthenticated() && canWrite()
+                    && resource.data.uid == request.auth.uid
+                    && request.resource.data.uid == resource.data.uid;
+      allow delete: if isAuthenticated() && canWrite()
+                    && resource.data.uid == request.auth.uid;
+    }
+
+    // Sessions: authentication sessions
+    match /sessions/{sessionId} {
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
+      allow create: if isAuthenticated() && canWrite();
+      allow update: if isAuthenticated() && canWrite()
+                    && resource.data.uid == request.auth.uid;
+      allow delete: if isAuthenticated() && canWrite()
+                    && resource.data.uid == request.auth.uid;
+    }
+
+    // Telegram users: link between Telegram and Celora accounts
+    match /telegramUsers/{telegramId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && canWrite()
+                    && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && canWrite()
+                    && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && canWrite()
+                    && resource.data.userId == request.auth.uid;
+    }
+
+    // User contacts (address book)
+    match /userContacts/{contactId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && canWrite()
+                    && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && canWrite()
+                    && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && canWrite()
+                    && resource.data.userId == request.auth.uid;
+    }
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Celora Wallet</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body data-app-url="https://celora-7b552.web.app" data-api-base="https://celora-7b552.web.app/api">
+    <!-- App root -->
+    <div id="root"></div>
+
+    <!-- Load local scripts ONLY (NO CDN) -->
+    <script src="config.js"></script>
+    
+    <!-- Vendor bundles -->
+    <script src="vendor/firebase-auth.js"></script>
+    <script src="vendor/qrcode-simple.js"></script>
+    
+    <!-- Wallet modules -->
+    <script src="wallet/mnemonic.js"></script>
+    <script src="wallet/crypto.js"></script>
+    <script src="wallet/store.js"></script>
+    <script src="wallet/keys-solana.js"></script>
+    <script src="wallet/solana-sign.js"></script>
+    
+    <!-- Swap integration -->
+    <script src="swap-jupiter.js"></script>
+    
+    <!-- App modules -->
+    <script src="auth.js"></script>
+    <script src="api.js"></script>
+    <script src="popup-app.js"></script>
+  </body>
+</html>
+

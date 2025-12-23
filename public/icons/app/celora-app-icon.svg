@@ -1,0 +1,42 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0c132e" />
+      <stop offset="65%" stop-color="#0a1026" />
+      <stop offset="100%" stop-color="#080c1e" />
+    </radialGradient>
+    <filter id="outerGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <linearGradient id="cNeon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00eaff" />
+      <stop offset="50%" stop-color="#7a49ff" />
+      <stop offset="100%" stop-color="#a259ff" />
+    </linearGradient>
+    <linearGradient id="specular" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55" />
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.25" />
+    </linearGradient>
+    <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset dx="0" dy="2" />
+      <feGaussianBlur stdDeviation="3" result="shadow" />
+      <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0" />
+      <feBlend in2="SourceGraphic" mode="normal" />
+    </filter>
+  </defs>
+
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#bgGrad)" filter="url(#outerGlow)" />
+  <circle cx="128" cy="128" r="96" fill="none" stroke="#0f1838" stroke-width="8" opacity="0.35" />
+  <g filter="url(#innerShadow)">
+    <path d="M188 98c-8-22-29-38-60-38-41 0-66 28-66 68s25 68 66 68c31 0 52-16 60-38" fill="none" stroke="url(#cNeon)" stroke-width="22" stroke-linecap="round" />
+    <path d="M180 92c-10-20-30-32-52-32" fill="none" stroke="url(#specular)" stroke-width="7" stroke-linecap="round" opacity="0.35" />
+  </g>
+  <circle cx="128" cy="128" r="78" fill="none" stroke="#0e1634" stroke-width="12" opacity="0.18" />
+  <circle cx="128" cy="128" r="56" fill="none" stroke="#0e1634" stroke-width="8" opacity="0.12" />
+</svg>

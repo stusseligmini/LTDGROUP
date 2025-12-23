@@ -1,0 +1,25 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="200" height="200" fill="url(#paint0_linear)"/>
+<circle cx="100" cy="100" r="60" stroke="url(#paint1_linear)" stroke-width="4" stroke-dasharray="8 8" opacity="0.6"/>
+<path d="M100 60C122.091 60 140 77.9086 140 100C140 122.091 122.091 140 100 140C77.9086 140 60 122.091 60 100C60 77.9086 77.9086 60 100 60Z" fill="url(#paint2_radial)" opacity="0.3"/>
+<path d="M85 90C83.8954 90 83 90.8954 83 92V108C83 109.105 83.8954 110 85 110H115C116.105 110 117 109.105 117 108V92C117 90.8954 116.105 90 115 90H85Z" fill="#0AF5D3" opacity="0.8"/>
+<circle cx="70" cy="70" r="3" fill="#0AF5D3" opacity="0.4"/>
+<circle cx="130" cy="70" r="2" fill="#E31AFF" opacity="0.4"/>
+<circle cx="130" cy="130" r="3" fill="#0AF5D3" opacity="0.4"/>
+<circle cx="70" cy="130" r="2" fill="#E31AFF" opacity="0.4"/>
+<text x="100" y="125" text-anchor="middle" fill="#0AF5D3" font-family="monospace" font-size="12" opacity="0.8">OFFLINE</text>
+<defs>
+<linearGradient id="paint0_linear" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0A0E17"/>
+<stop offset="1" stop-color="#1E2A3B"/>
+</linearGradient>
+<linearGradient id="paint1_linear" x1="40" y1="40" x2="160" y2="160" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0AF5D3"/>
+<stop offset="1" stop-color="#E31AFF"/>
+</linearGradient>
+<radialGradient id="paint2_radial" cx="100" cy="100" r="40" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0AF5D3" stop-opacity="0.4"/>
+<stop offset="1" stop-color="#E31AFF" stop-opacity="0.1"/>
+</radialGradient>
+</defs>
+</svg>

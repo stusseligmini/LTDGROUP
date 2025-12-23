@@ -1,0 +1,19 @@
+<!-- Example: inject Firebase web config into the extension popup via data-* attributes. Replace placeholders at build time (CI) or in dev. -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body
+    data-firebase-api-key="REPLACE_WITH_FIREBASE_WEB_API_KEY"
+    data-firebase-auth-domain="celora-7b552.firebaseapp.com"
+    data-firebase-project-id="celora-7b552"
+    data-firebase-storage-bucket="celora-7b552.firebasestorage.app"
+    data-firebase-messaging-sender-id="505448793868"
+    data-firebase-app-id="1:505448793868:web:df0e3f80e669ab47a26b29"
+  >
+    <script src="config.js"></script>
+    <script src="vendor/firebase-auth.js"></script>
+    <!-- other extension scripts -->
+  </body>
+</html>

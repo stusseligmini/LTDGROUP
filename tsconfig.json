@@ -1,0 +1,32 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "app/**/*",
+    "components/**/*",
+    "hooks/**/*",
+    "next-env.d.ts",
+    "src/**/*",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "migration_source",
+    "packages",
+    "apps",
+    "benchmark",
+    "scripts",
+    "tests",
+    "secure",
+    "ops",
+    ".next",
+    "src/**/__tests__/**",
+    "src/app/api/__tests__/**"
+  ]
+}
